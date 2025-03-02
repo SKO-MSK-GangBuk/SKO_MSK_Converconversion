@@ -1,38 +1,38 @@
 
-    <!DOCTYPE html>
-    <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>지도</title>
-        <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&libraries=services,clusterer"></script>
-        <style>
-            body, html { margin: 0; padding: 0; width: 100%; height: 100%; }
-            #map { width: 100vw; height: 100vh; background-color: #f0f0f0; }
-        </style>
-    </head>
-    <body>
-        <div id="map"></div>
+        <!DOCTYPE html>
+        <html lang="ko">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>지도</title>
+            <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&libraries=services,clusterer,geolocation"></script>
+            <style>
+                body, html { margin: 0; padding: 0; width: 100%; height: 100%; }
+                #map { width: 100vw; height: 100vh; background-color: #f0f0f0; }
+            </style>
+        </head>
+        <body>
+            <div id="map"></div>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                if (typeof kakao === "undefined" || !kakao.maps) {
-                    console.error("❌ Kakao API 로드 실패. API 키를 확인하세요.");
-                    return;
-                }
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    if (typeof kakao === "undefined" || !kakao.maps) {
+                        console.error("❌ Kakao API 로드 실패. API 키를 확인하세요.");
+                        return;
+                    }
 
-                console.log("✅ Kakao API 로드 성공, 지도 초기화 시작");
+                    console.log("✅ Kakao API 로드 성공, 지도 초기화 시작");
 
-                var map = new kakao.maps.Map(document.getElementById('map'), {
-                    center: new kakao.maps.LatLng(37.5665, 126.9780),
-                    level: 8 
+                    var map = new kakao.maps.Map(document.getElementById('map'), {
+                        center: new kakao.maps.LatLng(37.5665, 126.9780),
+                        level: 8 
+                    });
+
+                    var geocoder = new kakao.maps.services.Geocoder();
+                    var currentInfowindow = null;
+        
                 });
-
-                var geocoder = new kakao.maps.services.Geocoder();
-                var currentInfowindow = null;
-    
-            });
-        </script>
-    </body>
-    </html>
-    
+            </script>
+        </body>
+        </html>
+        
