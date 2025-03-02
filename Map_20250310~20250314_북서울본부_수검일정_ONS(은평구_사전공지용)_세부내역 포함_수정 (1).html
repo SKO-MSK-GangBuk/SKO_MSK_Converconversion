@@ -4,29 +4,55 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>지도</title>
+            <title>카카오 지도</title>
             <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&autoload=false&libraries=services,clusterer,geolocation"></script>
+            <style>
+                body, html { margin: 0; padding: 0; width: 100%; height: 100%; }
+                #map { width: 100vw; height: 100vh; background-color: #f0f0f0; }
+            </style>
         </head>
         <body>
-            <div id="map" style="width:100%; height:100vh;"></div>
+            <div id="map"></div>
             <script>
-                kakao.maps.load(initMap);
+                window.onload = function() {
+                    console.log("🔹 페이지 로드됨, Kakao API 로드 시작");
+                    kakao.maps.load(initMap);
+                };
+
                 function initMap() {
                     console.log("✅ Kakao API 로드 완료");
 
                     var mapContainer = document.getElementById('map');
+                    if (!mapContainer) {
+                        console.error("❌ #map 요소가 존재하지 않습니다.");
+                        return;
+                    }
+
                     var mapOption = {
                         center: new kakao.maps.LatLng(37.5665, 126.9780),
                         level: 8
                     };
 
                     var map = new kakao.maps.Map(mapContainer, mapOption);
+                    console.log("✅ 지도 객체 생성됨:", map);
 
+                    // 📌 내 위치 가져오기
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(function(position) {
-                            var userPosition = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                            var marker = new kakao.maps.Marker({ position: userPosition, map: map, title: "내 위치" });
+                            var lat = position.coords.latitude;
+                            var lon = position.coords.longitude;
+                            var userPosition = new kakao.maps.LatLng(lat, lon);
+
+                            var marker = new kakao.maps.Marker({
+                                position: userPosition,
+                                map: map,
+                                title: "내 위치"
+                            });
+
+                            console.log("📍 내 위치: ", lat, lon);
                             map.setCenter(userPosition);
+                        }, function(error) {
+                            console.warn("❌ 위치 정보를 가져올 수 없습니다: ", error);
                         });
                     }
 
@@ -48,7 +74,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 갈현로23길 13-3", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -68,7 +94,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 갈현로33길 30", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -88,7 +114,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 통일로89길 12-15", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -106,7 +132,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 연서로29길 16", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -124,7 +150,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 서오릉로18길 33-14", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -143,7 +169,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 갈현로19길 17", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -161,7 +187,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 갈현로1길 8", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -178,7 +204,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 가좌로7길 18", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -198,7 +224,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 응암로30길 5-1", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -218,7 +244,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 응암로24길 8", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -237,7 +263,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 가좌로 245-1", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -256,7 +282,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 응암로13길 11-7", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -276,7 +302,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 은평로 210", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -294,7 +320,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 백련산로 31", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -312,7 +338,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 백련산로 85", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -329,7 +355,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진관2로 90", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -352,7 +378,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진관2로 57-37", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -370,7 +396,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진관1로 55", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -388,7 +414,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진관2로 12", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -411,7 +437,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진관4로 17", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -432,7 +458,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진관3로 67", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -449,7 +475,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 통일로 1031", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -466,7 +492,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 연서로54길 11-1", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -486,7 +512,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진관1로 40", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -506,7 +532,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진관2로 77", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -524,7 +550,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진관2로 111-7", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -541,7 +567,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진관4로 78-47", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -561,7 +587,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 진흥로 67", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -581,7 +607,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 갈현로4길 31", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -599,7 +625,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 연서로16길 14", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -616,7 +642,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 통일로 856", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -636,7 +662,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 불광로5가길 13", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -653,7 +679,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                     geocoder.addressSearch("서울특별시 은평구 수색로 261-1", function(result, status) {
                         if (status === kakao.maps.services.Status.OK) {
@@ -672,7 +698,7 @@
                                 currentInfowindow = iw;
                             });
                         }
-                    });
+                    }); 
             
                 }
             </script>
