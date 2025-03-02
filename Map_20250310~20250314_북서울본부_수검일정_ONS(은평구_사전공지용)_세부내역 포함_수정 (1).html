@@ -1,41 +1,40 @@
 
-        <!DOCTYPE html>
-        <html lang="ko">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>지도</title>
-            <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&libraries=services,clusterer,geolocation"></script>
-            <style>
-                body, html { margin: 0; padding: 0; width: 100%; height: 100%; }
-                #map { width: 100vw; height: 100vh; background-color: #f0f0f0; }
-            </style>
-        </head>
-        <body>
-            <div id="map"></div>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>지도</title>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&libraries=services,clusterer,geolocation"></script>
+    <style>
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; }
+        #map { width: 100vw; height: 100vh; background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
 
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    var map = new kakao.maps.Map(document.getElementById('map'), {
-                        center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울 중심
-                        level: 8
-                    });
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var map = new kakao.maps.Map(document.getElementById('map'), {
+                center: new kakao.maps.LatLng(37.5665, 126.9780),
+                level: 8
+            });
 
-                    var currentInfowindow = null;
+            var currentInfowindow = null;
 
-                    // 여러 주소를 처리
-                    var addresses = ['서울특별시 은평구 갈현로 264', '서울특별시 은평구 갈현로23길 13-3', '서울특별시 은평구 갈현로33길 30', '서울특별시 은평구 통일로89길 12-15', '서울특별시 은평구 연서로29길 16', '서울특별시 은평구 서오릉로18길 33-14', '서울특별시 은평구 갈현로19길 17', '서울특별시 은평구 갈현로1길 8', '서울특별시 은평구 가좌로7길 18', '서울특별시 은평구 응암로30길 5-1', '서울특별시 은평구 응암로24길 8', '서울특별시 은평구 가좌로 245-1', '서울특별시 은평구 응암로13길 11-7', '서울특별시 은평구 은평로 210', '서울특별시 은평구 백련산로 31', '서울특별시 은평구 백련산로 85', '서울특별시 은평구 진관2로 90', '서울특별시 은평구 진관2로 57-37', '서울특별시 은평구 진관1로 55', '서울특별시 은평구 진관2로 12', '서울특별시 은평구 진관4로 17', '서울특별시 은평구 진관3로 67', '서울특별시 은평구 통일로 1031', '서울특별시 은평구 연서로54길 11-1', '서울특별시 은평구 진관1로 40', '서울특별시 은평구 진관2로 77', '서울특별시 은평구 진관2로 111-7', '서울특별시 은평구 진관4로 78-47', '서울특별시 은평구 진흥로 67', '서울특별시 은평구 갈현로4길 31', '서울특별시 은평구 연서로16길 14', '서울특별시 은평구 통일로 856', '서울특별시 은평구 불광로5가길 13', '서울특별시 은평구 수색로 261-1'];
-                    addresses.forEach(function(entry) {
-                        var lat = parseFloat(entry.y);
-                        var lon = parseFloat(entry.x);
-
-                        var markerPosition = new kakao.maps.LatLng(lat, lon);
+            // DB(JSON) 파일에서 마커 정보를 로드
+            fetch("markers_db.json")
+                .then(response => response.json())
+                .then(markers => {
+                    markers.forEach(function(markerData) {
+                        var markerPosition = new kakao.maps.LatLng(markerData.lat, markerData.lon);
                         var marker = new kakao.maps.Marker({
                             position: markerPosition,
                             map: map
                         });
 
-                        var content = "<div style='padding:10px;'>"+ entry + "</div>";
+                        var content = "<div style='padding:10px;'>" + markerData.address + "</div>";
                         var infowindow = new kakao.maps.InfoWindow({
                             content: content
                         });
@@ -48,8 +47,9 @@
                             currentInfowindow = infowindow;
                         });
                     });
-                });
-            </script>
-        </body>
-        </html>
-        
+                })
+                .catch(error => console.error("마커 DB 로드 에러:", error));
+        });
+    </script>
+</body>
+</html>
