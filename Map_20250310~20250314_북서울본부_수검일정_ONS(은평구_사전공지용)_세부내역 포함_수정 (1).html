@@ -5,17 +5,13 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>지도</title>
-            <script defer src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&libraries=services,clusterer,geolocation"></script>
+            <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&autoload=false&libraries=services,clusterer,geolocation"></script>
         </head>
         <body>
             <div id="map" style="width:100%; height:100vh;"></div>
             <script>
+                kakao.maps.load(initMap);
                 function initMap() {
-                    if (typeof kakao === "undefined" || typeof kakao.maps === "undefined") {
-                        console.error("❌ Kakao API가 정상적으로 로드되지 않았습니다.");
-                        return;
-                    }
-
                     console.log("✅ Kakao API 로드 완료");
 
                     var mapContainer = document.getElementById('map');
@@ -679,9 +675,6 @@
                     });
             
                 }
-                document.addEventListener("DOMContentLoaded", function() {
-                    setTimeout(initMap, 1000);
-                });
             </script>
         </body>
         </html>
