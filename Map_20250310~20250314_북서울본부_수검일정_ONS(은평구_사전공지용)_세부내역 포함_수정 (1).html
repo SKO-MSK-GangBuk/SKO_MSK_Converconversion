@@ -1,0 +1,689 @@
+
+        <!DOCTYPE html>
+        <html lang="ko">
+        <head>
+            <meta charset="UTF-8">
+            <title>지도</title>
+            <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&libraries=services,geolocation"></script>
+        </head>
+        <body>
+            <div id="map" style="width:100%; height:100vh;"></div>
+            <script>
+                function initMap() {
+                    var map = new kakao.maps.Map(document.getElementById('map'), {
+                        center: new kakao.maps.LatLng(37.5665, 126.9780),
+                        level: 8
+                    });
+
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            var userPosition = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                            var marker = new kakao.maps.Marker({ position: userPosition, map: map, title: "내 위치" });
+                            map.setCenter(userPosition);
+                        });
+                    }
+
+                    var geocoder = new kakao.maps.services.Geocoder();
+                    var currentInfowindow = null;
+
+        
+                    geocoder.addressSearch("서울특별시 은평구 갈현로 264", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 갈현로 264<br>호출명칭: SKT5G갈현초교3AAUD<br>허가번호: 322019110041351<br>설치장소(주소): 서울특별시 은평구 갈현로 264<br>검   사
+수수료: 300000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25 25 25<br>공중선 기수: 1 1 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S51U501016 S619906794 S51U500980<br>출입관련사항: 새마을금고 경유<br>비고: 20193AHEL<br>안테나 설치대: 원폴(건물)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 갈현로 264" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 갈현로23길 13-3", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 갈현로23길 13-3<br>호출명칭: SKTL갈현우성하이빌RRUM<br>허가번호: 322014110031860<br>설치장소(주소): 서울특별시 은평구 갈현로23길 13-3<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBD107J20<br>일련번호: SE8DA02486 SE8DA02486<br>출입관련사항: 상시<br>비고: 2014Y8372<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 갈현로23길 13-3<br>호출명칭: SKTL갈현우성하이빌RRU<br>허가번호: 322014110032007<br>설치장소(주소): 서울특별시 은평구 갈현로23길 13-3<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 12<br>공중선 기수: 3<br>형식검정번호: KCC-CRM-SEC-SLS2C304T0800<br>일련번호: 1921 1921<br>출입관련사항: 상시<br>비고: 2014Y8373<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 갈현로23길 13-3<br>호출명칭: SKTL갈현우성하이빌RRU(B1)<br>허가번호: 322015110009013<br>설치장소(주소): 서울특별시 은평구 갈현로23길 13-3<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: S61G387713 S61G387713<br>출입관련사항: 상시<br>비고: 201535689<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 갈현로23길 13-3<br>호출명칭: SKT갈현우성하이빌RRU(B1W)<br>허가번호: 322019110092736<br>설치장소(주소): 서울특별시 은평구 갈현로23길 13-3<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: S61G387713<br>출입관련사항: 상시<br>비고: 201535689<br>안테나 설치대: 복합형(원폴,분산프레임 등)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 갈현로23길 13-3" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 갈현로33길 30", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 갈현로33길 30<br>호출명칭: SKTL갈현동명성빌라RRU<br>허가번호: 322015110070907<br>설치장소(주소): 서울특별시 은평구 갈현로33길 30<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 3<br>형식검정번호: KCC-CRM-SEC-SLS2A504T0800<br>일련번호: 06222 06222<br>출입관련사항: 상시<br>비고: 20153AD2X<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 갈현로33길 30<br>호출명칭: SKTL갈현동명성빌라RRUM<br>허가번호: 322015110070923<br>설치장소(주소): 서울특별시 은평구 갈현로33길 30<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBD107J20<br>일련번호: SE8C905849 SE8C905849<br>출입관련사항: 상시<br>비고: 20153AD2W<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 갈현로33길 30<br>호출명칭: SKTL갈현동명성빌라RRU(B1)<br>허가번호: 322019110051391<br>설치장소(주소): 서울특별시 은평구 갈현로33길 30<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200230 SA75200230<br>출입관련사항: 상시<br>비고: 20193A82X<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 갈현로33길 30<br>호출명칭: SKT갈현동명성빌라RRU(B1W)<br>허가번호: 322019110051408<br>설치장소(주소): 서울특별시 은평구 갈현로33길 30<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200230<br>출입관련사항: 상시<br>비고: 20193A82X<br>안테나 설치대: 분산폴<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 갈현로33길 30" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 통일로89길 12-15", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 통일로89길 12-15<br>호출명칭: SKTL박석고개2RRU(B1)<br>허가번호: 322016110037691<br>설치장소(주소): 서울특별시 은평구 통일로89길 12-15<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15 13.5<br>공중선 기수: 2 1<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: S61F929549 28516516100115<br>출입관련사항: 사전연락<br>비고: 2016Y1233<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 통일로89길 12-15<br>호출명칭: SKT5G박석고개2AAUH<br>허가번호: 322019110067873<br>설치장소(주소): 서울특별시 은평구 통일로89길 12-15<br>검   사
+수수료: 200000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25 25<br>공중선 기수: 1 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S519204357 S519272489<br>출입관련사항: 사전연락<br>비고: 20193AZ2E<br>안테나 설치대: 프레임<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 통일로89길 12-15" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 연서로29길 16", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 연서로29길 16<br>호출명칭: SKTL연신내먹자골목MTRRU(B1)<br>허가번호: 322016110076491<br>설치장소(주소): 서울특별시 은평구 연서로29길 16<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-STC-MiBOS-Ad-L60LW<br>일련번호: 1501360 1501360<br>출입관련사항: 사전연락<br>비고: 20153A5MF<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 연서로29길 16<br>호출명칭: SKT5G연신내먹자골목AAUH<br>허가번호: 322019110072913<br>설치장소(주소): 서울특별시 은평구 연서로29길 16<br>검   사
+수수료: 300000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 24 25 25<br>공중선 기수: 1 1 1<br>형식검정번호: R-C-SEC-MT322878A<br>일련번호: S518A60401 S519249225 S519249229<br>출입관련사항: 사전연락<br>비고: 20193AZDT<br>안테나 설치대: 프레임<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 연서로29길 16" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 서오릉로18길 33-14", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 서오릉로18길 33-14<br>호출명칭: SKTL웰빙존아파트RRU(B1)<br>허가번호: 322015110011962<br>설치장소(주소): 서울특별시 은평구 서오릉로18길 33-14<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA7G300829 SA7G300829<br>출입관련사항: 상시<br>비고: 201535813<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 서오릉로18길 33-14<br>호출명칭: SKT웰빙존아파트RRU(B1W)<br>허가번호: 322019110092734<br>설치장소(주소): 서울특별시 은평구 서오릉로18길 33-14<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA7G300829<br>출입관련사항: 상시<br>비고: 201535813<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 서오릉로18길 33-14<br>호출명칭: SKT5G웰빙존아파트AAUD<br>허가번호: 322020110003080<br>설치장소(주소): 서울특별시 은평구 서오릉로18길 33-14<br>검   사
+수수료: 200000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 22.3 22.3<br>공중선 기수: 1 1<br>형식검정번호: R-C-SEC-MT320578A<br>일련번호: S525A18266 S525A18163<br>출입관련사항: 상시<br>비고: 20193BUQQ<br>안테나 설치대: 프레임<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 서오릉로18길 33-14" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 갈현로19길 17", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 갈현로19길 17<br>호출명칭: SKTL갈현샤인빌MIRRU<br>허가번호: 322014110026189<br>설치장소(주소): 서울특별시 은평구 갈현로19길 17<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 11.5<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-TSK-MiBOS-LF-L60-A<br>일련번호: TML60AX1400070 TML60AX1400070<br>출입관련사항: 상시<br>비고: 2014Y7814<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 갈현로19길 17<br>호출명칭: SKTL갈현샤인빌MIRRUM<br>허가번호: 322014110026198<br>설치장소(주소): 서울특별시 은평구 갈현로19길 17<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-TSK-MiBOS-LF-L60-A<br>일련번호: TML60AX1400070 TML60AX1400070<br>출입관련사항: 상시<br>비고: 2014Y7814<br>안테나 설치대: 분산폴<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 갈현로19길 17" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 갈현로1길 8", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 갈현로1길 8<br>호출명칭: SKT5G신사동오빌딩AAU<br>허가번호: 322019110041785<br>설치장소(주소): 서울특별시 은평구 갈현로1길 8<br>검   사
+수수료: 300000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25 25 24<br>공중선 기수: 1 1 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S51U525139 S519377377 S518744071<br>출입관련사항: 1층 부동산<br>비고: 20193AGZ4<br>안테나 설치대: 환경친화형(건물)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 갈현로1길 8" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 가좌로7길 18", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 가좌로7길 18<br>호출명칭: SKTL응암웅일빌딩RRUM<br>허가번호: 322014110065066<br>설치장소(주소): 서울특별시 은평구 가좌로7길 18<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBD107J20<br>일련번호: SA7DB00952 SA7DB00952<br>출입관련사항: 사전연락<br>비고: 20143AGZ2<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 가좌로7길 18<br>호출명칭: SKTL응암웅일빌딩RRU<br>허가번호: 322014110065233<br>설치장소(주소): 서울특별시 은평구 가좌로7길 18<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 3<br>형식검정번호: KCC-CRM-SEC-SLS2A504T0800<br>일련번호: 01259 01259<br>출입관련사항: 사전연락<br>비고: 20143AGZ3<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 가좌로7길 18<br>호출명칭: SKTL응암웅일빌딩RRU(B1)<br>허가번호: 322019110051352<br>설치장소(주소): 서울특별시 은평구 가좌로7길 18<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200271 SA75200271<br>출입관련사항: 사전연락<br>비고: 20193BCI8<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 가좌로7길 18<br>호출명칭: SKT응암웅일빌딩RRU(B1W)<br>허가번호: 322019110052505<br>설치장소(주소): 서울특별시 은평구 가좌로7길 18<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15 15<br>공중선 기수: 2 1<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200271<br>출입관련사항: 사전연락<br>비고: 20193BCI8<br>안테나 설치대: 분산폴<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 가좌로7길 18" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 응암로30길 5-1", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 응암로30길 5-1<br>호출명칭: SKT백련산해모로109동외부RRU(B1W)<br>허가번호: 322019110073040<br>설치장소(주소): 서울특별시 은평구 응암로30길 5-1<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200320<br>출입관련사항: 1층부동산경유<br>비고: 20193B2ZI<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 응암로30길 5-1<br>호출명칭: SKTL백련산해모로109동외부RRUM<br>허가번호: 322019110073174<br>설치장소(주소): 서울특별시 은평구 응암로30길 5-1<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBD107J20<br>일련번호: S61C824835 S61C824835<br>출입관련사항: 1층부동산경유<br>비고: 20193B4WP<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 응암로30길 5-1<br>호출명칭: SKTL백련산해모로109동외부RRU(B1)<br>허가번호: 322019110073188<br>설치장소(주소): 서울특별시 은평구 응암로30길 5-1<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200320 SA75200320<br>출입관련사항: 1층부동산경유<br>비고: 20193B2ZI<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 응암로30길 5-1<br>호출명칭: SKT5G백련산해모로109동외부AAUD<br>허가번호: 322020110018845<br>설치장소(주소): 서울특별시 은평구 응암로30길 5-1<br>검   사
+수수료: 100000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25<br>공중선 기수: 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S51U528746<br>출입관련사항: 1층부동산경유<br>비고: 202032263<br>안테나 설치대: 프레임<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 응암로30길 5-1" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 응암로24길 8", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 응암로24길 8<br>호출명칭: SKT백련산SK뷰아이파크102동외부RRU(B1W)<br>허가번호: 322019110073041<br>설치장소(주소): 서울특별시 은평구 응암로24길 8<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SEG5519074<br>출입관련사항: 상시<br>비고: 20193B2YU<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 응암로24길 8<br>호출명칭: SKTL백련산SK뷰아이파크102동외부RRUM<br>허가번호: 322019110073175<br>설치장소(주소): 서울특별시 은평구 응암로24길 8<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBD107J20<br>일련번호: SE8C902100 SE8C902100<br>출입관련사항: 상시<br>비고: 20193B4TK<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 응암로24길 8<br>호출명칭: SKTL백련산SK뷰아이파크102동외부RRU(B1)<br>허가번호: 322019110073189<br>설치장소(주소): 서울특별시 은평구 응암로24길 8<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SEG5519074 SEG5519074<br>출입관련사항: 상시<br>비고: 20193B2YU<br>안테나 설치대: 환경친화형(건물)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 응암로24길 8" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 가좌로 245-1", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 가좌로 245-1<br>호출명칭: SKT가좌로245-1MTWMC<br>허가번호: 322019110073677<br>설치장소(주소): 서울특별시 은평구 가좌로 245-1<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 14.5<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-STC-RMiBTROLD60<br>일련번호: 14700363<br>출입관련사항: 상시<br>비고: 20193BA1K<br>안테나 설치대: 프레임<hr><b>주소:</b> 서울특별시 은평구 가좌로 245-1<br>호출명칭: SKTL가좌로245-1MTRRUM<br>허가번호: 322019110073752<br>설치장소(주소): 서울특별시 은평구 가좌로 245-1<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 14.5<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-STC-RMiBTROLD60<br>일련번호: 14700363 14700363<br>출입관련사항: 상시<br>비고: 20193BA1K<br>안테나 설치대: 프레임<hr><b>주소:</b> 서울특별시 은평구 가좌로 245-1<br>호출명칭: SKTL가좌로245-1MTRRU<br>허가번호: 322019110073753<br>설치장소(주소): 서울특별시 은평구 가좌로 245-1<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-STC-RMiBTROLD60<br>일련번호: 14700363 14700363<br>출입관련사항: 상시<br>비고: 20193BA1K<br>안테나 설치대: 프레임<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 가좌로 245-1" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 응암로13길 11-7", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 응암로13길 11-7<br>호출명칭: SKT응암메트로타워RRU(B1W)<br>허가번호: 322019110087963<br>설치장소(주소): 서울특별시 은평구 응암로13길 11-7<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 11<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA7G300474<br>출입관련사항: 관리실 경유<br>비고: 20193B2K9<br>안테나 설치대: 프레임<hr><b>주소:</b> 서울특별시 은평구 응암로13길 11-7<br>호출명칭: SKTL응암메트로타워RRUM<br>허가번호: 322019110088023<br>설치장소(주소): 서울특별시 은평구 응암로13길 11-7<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 11<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-SEC-SLSBG007J<br>일련번호: S61G571766 S61G571766<br>출입관련사항: 관리실 경유<br>비고: 20193B4QY<br>안테나 설치대: 프레임<hr><b>주소:</b> 서울특별시 은평구 응암로13길 11-7<br>호출명칭: SKTL응암메트로타워RRU(B1)<br>허가번호: 322019110088334<br>설치장소(주소): 서울특별시 은평구 응암로13길 11-7<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 11<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA7G300474 SA7G300474<br>출입관련사항: 관리실 경유<br>비고: 20193B2K9<br>안테나 설치대: 프레임<hr><b>주소:</b> 서울특별시 은평구 응암로13길 11-7<br>호출명칭: SKT5G응암메트로타워AAUD<br>허가번호: 322020110001557<br>설치장소(주소): 서울특별시 은평구 응암로13길 11-7<br>검   사
+수수료: 200000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25 25<br>공중선 기수: 1 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S61U505805 S61U525307<br>출입관련사항: 관리실 경유<br>비고: 20193BTVL<br>안테나 설치대: 모노폴<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 응암로13길 11-7" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 은평로 210", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 은평로 210<br>호출명칭: SKTL응암1동RRU(B1)<br>허가번호: 322019110051399<br>설치장소(주소): 서울특별시 은평구 은평로 210<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15 15<br>공중선 기수: 2 1<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200262 SA75200262<br>출입관련사항: 1층 경비아저씨<br>비고: 20193A824<br>안테나 설치대: 복합형(원폴,분산프레임 등)<hr><b>주소:</b> 서울특별시 은평구 은평로 210<br>호출명칭: SKT응암1동RRU(B1W)<br>허가번호: 322019110051416<br>설치장소(주소): 서울특별시 은평구 은평로 210<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15 15<br>공중선 기수: 2 1<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200262<br>출입관련사항: 1층 경비아저씨<br>비고: 20193A824<br>안테나 설치대: 복합형(원폴,분산프레임 등)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 은평로 210" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 백련산로 31", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 백련산로 31<br>호출명칭: SKTL서부중앙교회RRU(B1)<br>허가번호: 322019110051400<br>설치장소(주소): 서울특별시 은평구 백련산로 31<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200197 SA75200197<br>출입관련사항: 사전연락<br>비고: 20193A81Z<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 백련산로 31<br>호출명칭: SKT서부중앙교회RRU(B1W)<br>허가번호: 322019110051419<br>설치장소(주소): 서울특별시 은평구 백련산로 31<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200197<br>출입관련사항: 사전연락<br>비고: 20193A81Z<br>안테나 설치대: 분산폴<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 백련산로 31" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 백련산로 85", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 백련산로 85<br>호출명칭: SKT5G응암2동AAUH<br>허가번호: 322019110018817<br>설치장소(주소): 서울특별시 은평구 백련산로 85<br>검   사
+수수료: 300000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25 25 25<br>공중선 기수: 1 1 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S519245692 S519249281 S519249271<br>출입관련사항: 초인종<br>비고: 201932487<br>안테나 설치대: 모노폴<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 백련산로 85" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진관2로 90", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진관2로 90<br>호출명칭: SKT은평2지구3단지2WMPR<br>허가번호: 322009110023749<br>설치장소(주소): 서울특별시 은평구 진관2로 90<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 6 10<br>공중선 기수: 13 1 4<br>형식검정번호: TSK-AFTSO060<br>일련번호: 090762<br>출입관련사항: 관리사무소<br>비고: 2009Y9611<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관2로 90<br>호출명칭: SKT은평2지구3단지3WMPR<br>허가번호: 322009110023750<br>설치장소(주소): 서울특별시 은평구 진관2로 90<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 10<br>공중선 기수: 8 3<br>형식검정번호: TSK-AFTSO060<br>일련번호: 090763<br>출입관련사항: 관리사무소<br>비고: 2009Y9586<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관2로 90<br>호출명칭: SKT은평2지구3단지4WMPR<br>허가번호: 322009110023751<br>설치장소(주소): 서울특별시 은평구 진관2로 90<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 10<br>공중선 기수: 8 3<br>형식검정번호: TSK-AFTSO060<br>일련번호: 090754<br>출입관련사항: 관리사무소<br>비고: 2009Y9593<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관2로 90<br>호출명칭: SKT은평2지구3단지WMPR<br>허가번호: 322009110023752<br>설치장소(주소): 서울특별시 은평구 진관2로 90<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 6 10<br>공중선 기수: 14 1 4<br>형식검정번호: TSK-AFTSO060<br>일련번호: 090759<br>출입관련사항: 관리사무소<br>비고: 2009Y9587<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관2로 90<br>호출명칭: SKT은평2지구2단지2WMPR<br>허가번호: 322009110024783<br>설치장소(주소): 서울특별시 은평구 진관2로 90<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 6 10<br>공중선 기수: 6 3 1<br>형식검정번호: CSW-1SFF-8500-6FA<br>일련번호: 600565<br>출입관련사항: 관리사무소<br>비고: 2009Y9604<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관2로 90<br>호출명칭: SKT은평2지구2단지3WMPR<br>허가번호: 322009110024784<br>설치장소(주소): 서울특별시 은평구 진관2로 90<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 6<br>공중선 기수: 5 6<br>형식검정번호: CSW-1SFF-8500-6FA<br>일련번호: 600566<br>출입관련사항: 관리사무소<br>비고: 2009Y9591<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관2로 90<br>호출명칭: SKT은평2지구2단지WMPR<br>허가번호: 322009110024785<br>설치장소(주소): 서울특별시 은평구 진관2로 90<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 10<br>공중선 기수: 12 2<br>형식검정번호: CSW-1SFF-8500-6FA<br>일련번호: 600567<br>출입관련사항: 관리사무소<br>비고: 2009Y9596<br>안테나 설치대: 옥내,터널,지하등<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진관2로 90" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진관2로 57-37", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진관2로 57-37<br>호출명칭: SKT은평2지구5단지2WMPR<br>허가번호: 322009110024786<br>설치장소(주소): 서울특별시 은평구 진관2로 57-37<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 6 10<br>공중선 기수: 14 2 3<br>형식검정번호: CSW-1SFF-8500<br>일련번호: 600568<br>출입관련사항: 관리사무소<br>비고: 2009Y9478<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관2로 57-37<br>호출명칭: SKT은평2지구5단지WMPR<br>허가번호: 322009110024787<br>설치장소(주소): 서울특별시 은평구 진관2로 57-37<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 6 10<br>공중선 기수: 18 1 4<br>형식검정번호: CSW-1SFF-8500<br>일련번호: 600569<br>출입관련사항: 관리사무소<br>비고: 2009Y9476<br>안테나 설치대: 옥내,터널,지하등<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진관2로 57-37" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진관1로 55", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진관1로 55<br>호출명칭: SKT은평2지구11단지2WMPR<br>허가번호: 322009110024781<br>설치장소(주소): 서울특별시 은평구 진관1로 55<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 6 10<br>공중선 기수: 13 5 4<br>형식검정번호: CSW-1SFF-8500-6FA<br>일련번호: 600570<br>출입관련사항: 관리사무소<br>비고: 2009Y9590<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관1로 55<br>호출명칭: SKT은평2지구11단지WMPR<br>허가번호: 322009110024782<br>설치장소(주소): 서울특별시 은평구 진관1로 55<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 6<br>공중선 기수: 7 8<br>형식검정번호: CSW-1SFF-8500-6FA<br>일련번호: 600571<br>출입관련사항: 관리사무소<br>비고: 2009Y9601<br>안테나 설치대: 옥내,터널,지하등<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진관1로 55" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진관2로 12", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진관2로 12<br>호출명칭: SKT5메이플카운티오피스텔2차MTWMC<br>허가번호: 322015110047529<br>설치장소(주소): 서울특별시 은평구 진관2로 12<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 3 7<br>공중선 기수: 86 34<br>형식검정번호: MSIP-CRM-TSK-MIBOS-TF-L60-B<br>일련번호: TMT60BH1301171<br>출입관련사항: 관리사무소<br>비고: 2015Y4865<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관2로 12<br>호출명칭: SKTL5메이플카운티오피스텔2차MTRRUM<br>허가번호: 322015110047543<br>설치장소(주소): 서울특별시 은평구 진관2로 12<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 3 7<br>공중선 기수: 86 34<br>형식검정번호: MSIP-CRM-TSK-MIBOS-TF-L60-B<br>일련번호: TMT60BH1301171<br>출입관련사항: 관리사무소<br>비고: 2015Y4865<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관2로 12<br>호출명칭: SKTL5메이플카운티오피스텔2차MTRRU<br>허가번호: 322015110047559<br>설치장소(주소): 서울특별시 은평구 진관2로 12<br>검   사
+수수료: 100000<br>공중선 형식: OMNI<br>공중선 이득(dB): 2 6<br>공중선 기수: 86 34<br>형식검정번호: MSIP-CRM-TSK-MIBOS-TF-L60-B<br>일련번호: TMT60BH1301171<br>출입관련사항: 관리사무소<br>비고: 2015Y4865<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 진관2로 12<br>호출명칭: SKT메이플카운티오피스텔2차IRCTWMC<br>허가번호: 322019110058213<br>설치장소(주소): 서울특별시 은평구 진관2로 12<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 14.5<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-STC-RROIROQ81W6RLD<br>일련번호: TMIQ81R1801093<br>출입관련사항: 관리사무소<br>비고: 20193A4QY<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 진관2로 12<br>호출명칭: SKTL메이플카운티오피스텔2차IRCTRRU<br>허가번호: 322019110058219<br>설치장소(주소): 서울특별시 은평구 진관2로 12<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-STC-RROIROQ81W6RLD<br>일련번호: TMIQ81R1801093 TMIQ81R1801093<br>출입관련사항: 관리사무소<br>비고: 20193A4QY<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 진관2로 12<br>호출명칭: SKTL메이플카운티오피스텔2차IRCTRRUM<br>허가번호: 322019110058221<br>설치장소(주소): 서울특별시 은평구 진관2로 12<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 14.5<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-STC-RROIROQ81W6RLD<br>일련번호: TMIQ81R1801093 TMIQ81R1801093<br>출입관련사항: 관리사무소<br>비고: 20193A4QY<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 진관2로 12<br>호출명칭: SKTL메이플카운티오피스텔2차IRCTRRU(3B7)<br>허가번호: 322019110058222<br>설치장소(주소): 서울특별시 은평구 진관2로 12<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-STC-RROIROQ81W6RLD<br>일련번호: TMIQ81R1801093 TMIQ81R1801093<br>출입관련사항: 관리사무소<br>비고: 20193A4QY<br>안테나 설치대: 환경친화형(건물)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진관2로 12" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진관4로 17", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진관4로 17<br>호출명칭: SKT(아)은평1지구818동IRQWMC<br>허가번호: 322019110065382<br>설치장소(주소): 서울특별시 은평구 진관4로 17<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5 14.5<br>공중선 기수: 1 1<br>형식검정번호: MSIP-CRM-STC-RROIROQ8126RLD<br>일련번호: TMIQ82R1900031<br>출입관련사항: 관리사무소<br>비고: 20193B9HV<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 진관4로 17<br>호출명칭: SKTL(아)은평1지구818동IRQRRU<br>허가번호: 322019110065391<br>설치장소(주소): 서울특별시 은평구 진관4로 17<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 12 13.5<br>공중선 기수: 1 1<br>형식검정번호: MSIP-CRM-STC-RROIROQ8126RLD<br>일련번호: TMIQ82R1900031 TMIQ82R1900031<br>출입관련사항: 관리사무소<br>비고: 20193B9HV<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 진관4로 17<br>호출명칭: SKTL(아)은평1지구818동IRQRRUM<br>허가번호: 322019110065426<br>설치장소(주소): 서울특별시 은평구 진관4로 17<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5 14.5<br>공중선 기수: 1 1<br>형식검정번호: MSIP-CRM-STC-RROIROQ8126RLD<br>일련번호: TMIQ82R1900031 TMIQ82R1900031<br>출입관련사항: 관리사무소<br>비고: 20193B9HV<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 진관4로 17<br>호출명칭: SKTL(아)은평1지구818동IRQRRU(B1)<br>허가번호: 322019110065432<br>설치장소(주소): 서울특별시 은평구 진관4로 17<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5 14.5<br>공중선 기수: 1 1<br>형식검정번호: MSIP-CRM-STC-RROIROQ8126RLD<br>일련번호: TMIQ82R1900031 TMIQ82R1900031<br>출입관련사항: 관리사무소<br>비고: 20193B9HV<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 진관4로 17<br>호출명칭: SKTL(아)은평1지구818동IRQRRU(3B7)<br>허가번호: 322019110066006<br>설치장소(주소): 서울특별시 은평구 진관4로 17<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 14 15<br>공중선 기수: 1 1<br>형식검정번호: MSIP-CRM-STC-RROIROQ8126RLD<br>일련번호: TMIQ82R1900031 TMIQ82R1900031<br>출입관련사항: 관리사무소<br>비고: 20193B9HV<br>안테나 설치대: 환경친화형(건물)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진관4로 17" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진관3로 67", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진관3로 67<br>호출명칭: SKT5G은평3지구910동AAUH<br>허가번호: 322019110087155<br>설치장소(주소): 서울특별시 은평구 진관3로 67<br>검   사
+수수료: 100000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25<br>공중선 기수: 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S519205550<br>출입관련사항: 관리사무소<br>비고: 20193BF9N<br>안테나 설치대: 환경친화형(건물)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진관3로 67" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 통일로 1031", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 통일로 1031<br>호출명칭: SKT은평뉴타운S오일주유소RRU(B1W)<br>허가번호: 322019110088505<br>설치장소(주소): 서울특별시 은평구 통일로 1031<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5 11<br>공중선 기수: 2 1<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: S62F519976<br>출입관련사항: 주유소 1층 키수령<br>비고: 201738835<br>안테나 설치대: 분산폴<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 통일로 1031" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 연서로54길 11-1", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 연서로54길 11-1<br>호출명칭: SKTL삼천리골RRU(B1)<br>허가번호: 322019110051396<br>설치장소(주소): 서울특별시 은평구 연서로54길 11-1<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200252 SA75200252<br>출입관련사항: 상시<br>비고: 20193A82Y<br>안테나 설치대: 쌍통신주_x000D_
+<hr><b>주소:</b> 서울특별시 은평구 연서로54길 11-1<br>호출명칭: SKT삼천리골RRU(B1W)<br>허가번호: 322019110051413<br>설치장소(주소): 서울특별시 은평구 연서로54길 11-1<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200252<br>출입관련사항: 상시<br>비고: 20193A82Y<br>안테나 설치대: 쌍통신주_x000D_
+<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 연서로54길 11-1" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진관1로 40", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진관1로 40<br>호출명칭: SKTL은평구민체육센터RRU(B1)<br>허가번호: 322019110051401<br>설치장소(주소): 서울특별시 은평구 진관1로 40<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200253 SA75200253<br>출입관련사항: 벙커 상시<br>비고: 20193A82V<br>안테나 설치대: 강관주<hr><b>주소:</b> 서울특별시 은평구 진관1로 40<br>호출명칭: SKT은평구민체육센터RRU(B1W)<br>허가번호: 322019110051420<br>설치장소(주소): 서울특별시 은평구 진관1로 40<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200253<br>출입관련사항: 벙커 상시<br>비고: 20193A82V<br>안테나 설치대: 강관주<hr><b>주소:</b> 서울특별시 은평구 진관1로 40<br>호출명칭: SKT은평구민체육센터2RRU(B1W)<br>허가번호: 322019110053020<br>설치장소(주소): 서울특별시 은평구 진관1로 40<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200246<br>출입관련사항: 벙커 상시<br>비고: 20193BCI7<br>안테나 설치대: 강관주<hr><b>주소:</b> 서울특별시 은평구 진관1로 40<br>호출명칭: SKTL은평구민체육센터2RRU(B1)<br>허가번호: 322019110054659<br>설치장소(주소): 서울특별시 은평구 진관1로 40<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200246 SA75200246<br>출입관련사항: 벙커 상시<br>비고: 20193BCI7<br>안테나 설치대: 강관주<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진관1로 40" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진관2로 77", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진관2로 77<br>호출명칭: SKT5G은평2지구204동AAUH<br>허가번호: 322020110001585<br>설치장소(주소): 서울특별시 은평구 진관2로 77<br>검   사
+수수료: 300000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25 22.3 25<br>공중선 기수: 1 1 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S519911467 S515A86417 S519908759<br>출입관련사항: 관리사무소<br>비고: 20193BTVP<br>안테나 설치대: 환경친화형(건물)<hr><b>주소:</b> 서울특별시 은평구 진관2로 77<br>호출명칭: SKT5G은평2지구206동AAUH<br>허가번호: 322020110001586<br>설치장소(주소): 서울특별시 은평구 진관2로 77<br>검   사
+수수료: 300000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25 22.3 25<br>공중선 기수: 1 1 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S519911433 S515A86613 S519911469<br>출입관련사항: 관리사무소<br>비고: 20193BU19<br>안테나 설치대: 환경친화형(건물)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진관2로 77" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진관2로 111-7", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진관2로 111-7<br>호출명칭: SKT5G은평2지구213동AAUD<br>허가번호: 322020110001602<br>설치장소(주소): 서울특별시 은평구 진관2로 111-7<br>검   사
+수수료: 300000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 22.3 22.3 22.3<br>공중선 기수: 1 1 1<br>형식검정번호: R-C-SEC-MT320578A<br>일련번호: S515A67186 S515A66974 S515A67004<br>출입관련사항: 관리사무소<br>비고: 20193BU4B<br>안테나 설치대: 환경친화형(건물)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진관2로 111-7" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진관4로 78-47", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진관4로 78-47<br>호출명칭: SKT5G은평관음사AAUD<br>허가번호: 322020110002716<br>설치장소(주소): 서울특별시 은평구 진관4로 78-47<br>검   사
+수수료: 200000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 22.3 22.3<br>공중선 기수: 1 1<br>형식검정번호: R-C-SEC-MT320578A<br>일련번호: S525A10709 S515A66970<br>출입관련사항: 상시<br>비고: 20193AZ9C<br>안테나 설치대: 통신주(CP주)_x000D_
+<hr><b>주소:</b> 서울특별시 은평구 진관4로 78-47<br>호출명칭: SKTL은평관음사RRU(B1)<br>허가번호: 322015110007746<br>설치장소(주소): 서울특별시 은평구 진관4로 78-47<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 2<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA7G300825 SA7G300825<br>출입관련사항: 상시<br>비고: 201537721<br>안테나 설치대: 통신주(CP주)_x000D_
+<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진관4로 78-47" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 진흥로 67", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 진흥로 67<br>호출명칭: SKTL역촌동진선빌딩RRUM<br>허가번호: 322015110057341<br>설치장소(주소): 서울특별시 은평구 진흥로 67<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBD107J20<br>일련번호: S2LDA08233 S2LDA08233<br>출입관련사항: 1층 카센터 경유<br>비고: 20153ABS0<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 진흥로 67<br>호출명칭: SKTL역촌동진선빌딩RRU<br>허가번호: 322015110057360<br>설치장소(주소): 서울특별시 은평구 진흥로 67<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 13.5<br>공중선 기수: 3<br>형식검정번호: KCC-CRM-SEC-SLS2A504T0800<br>일련번호: 00673 00673<br>출입관련사항: 1층 카센터 경유<br>비고: 20153ABS1<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 진흥로 67<br>호출명칭: SKTL역촌동진선빌딩RRU(B1)<br>허가번호: 322019110051395<br>설치장소(주소): 서울특별시 은평구 진흥로 67<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200254 SA75200254<br>출입관련사항: 1층 카센터 경유<br>비고: 20193A82S<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 진흥로 67<br>호출명칭: SKT역촌동진선빌딩RRU(B1W)<br>허가번호: 322019110051412<br>설치장소(주소): 서울특별시 은평구 진흥로 67<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: SA75200254<br>출입관련사항: 1층 카센터 경유<br>비고: 20193A82S<br>안테나 설치대: 분산폴<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 진흥로 67" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 갈현로4길 31", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 갈현로4길 31<br>호출명칭: SKTL역촌초교RRU(B1)<br>허가번호: 322015110007742<br>설치장소(주소): 서울특별시 은평구 갈현로4길 31<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15<br>공중선 기수: 3<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: S61G182872 S61G182872<br>출입관련사항: 사전연락<br>비고: 201536281<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 갈현로4길 31<br>호출명칭: SKT5G역촌초교AAUE(3)<br>허가번호: 322020110001588<br>설치장소(주소): 서울특별시 은평구 갈현로4길 31<br>검   사
+수수료: 300000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 22.3 22.3 24<br>공중선 기수: 1 1 1<br>형식검정번호: R-C-SEC-MT320578A<br>일련번호: S515A86008 S517132347 S518A60405<br>출입관련사항: 사전연락<br>비고: 20193BUPP<br>안테나 설치대: 복합형(원폴,분산프레임 등)<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 갈현로4길 31" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 연서로16길 14", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 연서로16길 14<br>호출명칭: SKT5G역촌동은혜세탁소AAUD<br>허가번호: 322020110001596<br>설치장소(주소): 서울특별시 은평구 연서로16길 14<br>검   사
+수수료: 200000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25 25<br>공중선 기수: 1 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S61U505806 S61U505414<br>출입관련사항: 열려있으나 전화<br>비고: 20193BU1V<br>안테나 설치대: 프레임<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 연서로16길 14" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 통일로 856", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 통일로 856<br>호출명칭: SKT은평메트로타워RRU(B1W)<br>허가번호: 322019110078733<br>설치장소(주소): 서울특별시 은평구 통일로 856<br>검   사
+수수료: 100000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 11<br>공중선 기수: 1<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: S515915669<br>출입관련사항: 상시<br>비고: 20193A82G<br>안테나 설치대: 프레임<hr><b>주소:</b> 서울특별시 은평구 통일로 856<br>호출명칭: SKTL은평메트로타워RRU(B1)<br>허가번호: 322019110078783<br>설치장소(주소): 서울특별시 은평구 통일로 856<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 11<br>공중선 기수: 1<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: S515915669 S515915669<br>출입관련사항: 상시<br>비고: 20193A82G<br>안테나 설치대: 프레임<hr><b>주소:</b> 서울특별시 은평구 통일로 856<br>호출명칭: SKTL은평메트로타워RRU(3B7)<br>허가번호: 322019110085568<br>설치장소(주소): 서울특별시 은평구 통일로 856<br>검   사
+수수료: 400000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 11<br>공중선 기수: 1<br>형식검정번호: MSIP-CRM-SEC-SLSBR03CR<br>일련번호: S913819108 S913819108 S913819108 S913819108<br>출입관련사항: 상시<br>비고: 20193B16Q<br>안테나 설치대: 프레임<hr><b>주소:</b> 서울특별시 은평구 통일로 856<br>호출명칭: SKTL은평메트로타워RRUM<br>허가번호: 322019110086750<br>설치장소(주소): 서울특별시 은평구 통일로 856<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 11<br>공중선 기수: 1<br>형식검정번호: MSIP-CRM-SEC-SLSBG007J<br>일련번호: S913816031 S913816031<br>출입관련사항: 상시<br>비고: 20193B4L3<br>안테나 설치대: 프레임<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 통일로 856" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 불광로5가길 13", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 불광로5가길 13<br>호출명칭: SKT5G불광어린이공원AAUH<br>허가번호: 322020110001555<br>설치장소(주소): 서울특별시 은평구 불광로5가길 13<br>검   사
+수수료: 200000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25 25<br>공중선 기수: 1 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S51U445899 S51U439958<br>출입관련사항: 못가<br>비고: 20193AZ7P<br>안테나 설치대: 프레임<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 불광로5가길 13" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                    geocoder.addressSearch("서울특별시 은평구 수색로 261-1", function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var marker = new kakao.maps.Marker({ 
+                                position: new kakao.maps.LatLng(result[0].y, result[0].x), 
+                                map: map 
+                            });
+                            var iw = new kakao.maps.InfoWindow({ content: `<div style="padding:10px; max-height:200px; overflow-y:auto;"><b>주소:</b> 서울특별시 은평구 수색로 261-1<br>호출명칭: SKT(철K)수색역승강장LRRU(B1W)<br>허가번호: 322019110082229<br>설치장소(주소): 서울특별시 은평구 수색로 261-1<br>검   사
+수수료: 100000<br>공중선 형식: SECTOR<br>공중선 이득(dB): 11<br>공중선 기수: 4<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: S61G320040<br>출입관련사항: 못가<br>비고: 2015Y9112<br>안테나 설치대: 옥내,터널,지하등<hr><b>주소:</b> 서울특별시 은평구 수색로 261-1<br>호출명칭: SKTL수색역삼거리RRU(B1)<br>허가번호: 322014110054160<br>설치장소(주소): 서울특별시 은평구 수색로 261-1<br>검   사
+수수료: 200000<br>공중선 형식: Dual Polar<br>공중선 이득(dB): 15 14.5<br>공중선 기수: 1 2<br>형식검정번호: MSIP-CRM-SEC-SLSBG003M<br>일련번호: S2LF900344 S2LF900344<br>출입관련사항: 사전연락<br>비고: 20143A3PW<br>안테나 설치대: 분산폴<hr><b>주소:</b> 서울특별시 은평구 수색로 261-1<br>호출명칭: SKT5G수색역삼거리AAUH<br>허가번호: 322019110018815<br>설치장소(주소): 서울특별시 은평구 수색로 261-1<br>검   사
+수수료: 300000<br>공중선 형식: 5G SECTOR<br>공중선 이득(dB): 25 25 24<br>공중선 기수: 1 1 1<br>형식검정번호: R-C-SEC-MT641577A<br>일련번호: S619224596 S619224598 S518A54780<br>출입관련사항: 사전연락<br>비고: 2019Y0332<br>안테나 설치대: 모노폴<hr><a href="#" onclick="openTmap(this)" data-address="서울특별시 은평구 수색로 261-1" style="color:blue; text-decoration:underline;">T-map 길안내</a></div>` });
+
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (currentInfowindow) currentInfowindow.close();
+                                iw.open(map, marker);
+                                currentInfowindow = iw;
+                            });
+                        }
+                    });
+            
+                }
+
+                function openTmap(linkElement) {
+                    var address = linkElement.getAttribute('data-address');
+                    var geocoder = new kakao.maps.services.Geocoder();
+                    geocoder.addressSearch(address, function(result, status) {
+                        if (status === kakao.maps.services.Status.OK) {
+                            var tmapUrl = `https://www.tmap.co.kr/tmap2/mobile/route.do?startX=&startY=&endX=${result[0].x}&endY=${result[0].y}&endName=${encodeURIComponent(address)}`;
+                            window.open(tmapUrl, '_blank');
+                        } else {
+                            alert('T-map 길안내를 위한 주소 검색 실패');
+                        }
+                    });
+                }
+                initMap();
+            </script>
+        </body>
+        </html>
+        
