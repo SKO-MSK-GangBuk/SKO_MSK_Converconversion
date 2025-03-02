@@ -5,31 +5,23 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>지도</title>
+            <script defer src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&libraries=services,clusterer,geolocation"></script>
             <script>
-                function loadKakaoAPI(callback) {
-                    var script = document.createElement("script");
-                    script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&libraries=services,clusterer,geolocation";
-                    script.async = false;
-                    script.onload = function() {
-                        console.log("✅ Kakao API 로드 완료");
-                        callback();
-                    };
-                    script.onerror = function() {
-                        console.error("❌ Kakao API 로드 실패");
-                    };
-                    document.head.appendChild(script);
-                }
-
                 function initMap() {
-                    if (typeof kakao === "undefined") {
-                        console.error("❌ Kakao API가 로드되지 않았습니다.");
+                    if (typeof kakao === "undefined" || typeof kakao.maps === "undefined") {
+                        console.error("❌ Kakao API가 정상적으로 로드되지 않았습니다.");
                         return;
                     }
 
-                    var map = new kakao.maps.Map(document.getElementById('map'), {
+                    console.log("✅ Kakao API 로드 완료");
+
+                    var mapContainer = document.getElementById('map');
+                    var mapOption = {
                         center: new kakao.maps.LatLng(37.5665, 126.9780),
                         level: 8
-                    });
+                    };
+
+                    var map = new kakao.maps.Map(mapContainer, mapOption);
 
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(function(position) {
@@ -684,21 +676,9 @@
                     });
             
                 }
-                function openTmap(linkElement) {
-                    var address = linkElement.getAttribute('data-address');
-                    var geocoder = new kakao.maps.services.Geocoder();
-                    geocoder.addressSearch(address, function(result, status) {
-                        if (status === kakao.maps.services.Status.OK) {
-                            var tmapUrl = `https://www.tmap.co.kr/tmap2/mobile/route.do?endX=${result[0].x}&endY=${result[0].y}&endName=${encodeURIComponent(address)}`;
-                            window.open(tmapUrl, '_blank');
-                        } else {
-                            alert('T-map 길안내 검색 실패');
-                        }
-                    });
-                }
-                document.addEventListener("DOMContentLoaded", function() {{
-                    loadKakaoAPI(initMap);
-                }});
+                document.addEventListener("DOMContentLoaded", function() {
+                    setTimeout(initMap, 1000); // Kakao API 로드 보장
+                });
             </script>
         </head>
         <body>
