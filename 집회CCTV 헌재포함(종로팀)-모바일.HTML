@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>광화문 및 주변 실시간 CCTV</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin: 20px 0;
+        }
+        .cctv-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            width: 90%;
+        }
+        .cctv-frame {
+            width: 90%;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            border: 2px solid #fff;
+        }
+        .cctv-title {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>광화문 실시간 CCTV</h1>
+    <div class="cctv-container">
+        <div class="cctv-frame">
+            <div class="cctv-title">CCTV 1 : 광화문광장</div>
+            <video id="video1" controls autoplay playsinline muted loop></video>
+        </div>
+        <div class="cctv-frame">
+            <div class="cctv-title">CCTV 2 : 광화문 앞</div>
+            <video id="video2" controls autoplay playsinline muted loop></video>
+        </div>
+        <div class="cctv-frame">
+            <div class="cctv-title">CCTV 3 : 경복궁역 앞</div>
+            <video id="video3" controls autoplay playsinline muted loop></video>
+        </div>
+        <div class="cctv-frame">
+            <div class="cctv-title">CCTV 4 : 안국역사거리 앞</div>
+            <video id="video4" controls autoplay playsinline muted loop></video>
+        </div>
+	<div class="cctv-frame">
+            <div class="cctv-title">CCTV 5 : 무교동사거리</div>
+            <video id="video5" controls autoplay playsinline muted loop></video>
+        </div>
+	<div class="cctv-frame">
+            <div class="cctv-title">CCTV 6 : 종각역사거리</div>
+            <video id="video6" controls autoplay playsinline muted loop></video>
+        </div>
+	<div class="cctv-frame">
+            <div class="cctv-title">CCTV 7 : 시청</div>
+            <video id="video7" controls autoplay playsinline muted loop></video>
+        </div>
+	<div class="cctv-frame">
+            <div class="cctv-title">CCTV 8 : 창덕궁R</div>
+            <video id="video8" controls autoplay playsinline muted loop></video>
+        </div>
+
+    </div>
+
+    <script>
+        const videoSources = [
+            'https://strm3.spatic.go.kr/live/273.stream/chunklist_w354529801.m3u8',
+            'https://strm1.spatic.go.kr/live/62.stream/chunklist_w2091018758.m3u8',
+            'https://strm1.spatic.go.kr/live/63.stream/chunklist_w1583173620.m3u8',
+            'https://strm2.spatic.go.kr/live/131.stream/chunklist_w455902577.m3u8',
+	    'https://strm3.spatic.go.kr/live/272.stream/chunklist_w566429048.m3u8',
+	    'https://strm2.spatic.go.kr/live/150.stream/chunklist_w741584683.m3u8',
+            'https://strm1.spatic.go.kr/live/60.stream/chunklist_w1136218965.m3u8',
+	    'https://strm2.spatic.go.kr/live/132.stream/chunklist_w856749738.m3u8'
+        ];
+
+        function loadHLS(videoElement, url) {
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(videoElement);
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    videoElement.play();
+                });
+            } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+                videoElement.src = url;
+                videoElement.addEventListener('loadedmetadata', function () {
+                    videoElement.play();
+                });
+            } else {
+                alert("HLS 스트리밍이 지원되지 않는 브라우저입니다.");
+            }
+        }
+
+        window.onload = function () {
+            loadHLS(document.getElementById('video1'), videoSources[0]);
+            loadHLS(document.getElementById('video2'), videoSources[1]);
+            loadHLS(document.getElementById('video3'), videoSources[2]);
+            loadHLS(document.getElementById('video4'), videoSources[3]);
+            loadHLS(document.getElementById('video5'), videoSources[4]);
+            loadHLS(document.getElementById('video6'), videoSources[5]);
+            loadHLS(document.getElementById('video7'), videoSources[6]);
+            loadHLS(document.getElementById('video8'), videoSources[7]);
+
+
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
