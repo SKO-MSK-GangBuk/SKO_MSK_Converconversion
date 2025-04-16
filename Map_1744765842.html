@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>지도</title>
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=0ce56961448341b631e536b7d1fcad7d&libraries=services,clusterer,geolocation"></script>
+    <style>
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+        }
+        #map {
+            width: 100%; height: 100%;
+        }
+        #controls {
+            position: absolute;
+            top: 10px; left: 10px;
+            z-index: 999;
+            background-color: rgba(255,255,255,0.8);
+            padding: 5px;
+            border-radius: 5px;
+        }
+        #myLocationBtn {
+            margin-bottom: 5px;
+            width: 100px;
+            height: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<div id="controls">
+    <button id="myLocationBtn">내 위치</button>
+</div>
+
+<script>
+// 전역 변수: 내 위치
+window.myLat = null;
+window.myLon = null;
+
+// 전역 함수: T-map 길찾기 (모바일 환경에서 동작)
+window.openTmapRoute = function(myLat, myLon, markerLat, markerLon, markerAddr) {
+  if (!myLat || !myLon) {
+    alert("내 위치를 찾을 수 없습니다.");
+    return;
+  }
+  var schemeUrl = "tmap://route?goalx=" + markerLon
+                + "&goaly=" + markerLat
+                + "&goalname=" + encodeURIComponent(markerAddr)
+                + "&startx=" + myLon
+                + "&starty=" + myLat
+                + "&startname=내위치"
+                + "&rGoCoordType=WGS84GEO&rpFlag=1";
+  window.location.href = schemeUrl;
+  setTimeout(function() {
+    window.open("https://play.google.com/store/apps/details?id=com.skt.tmap.ku", "_blank");
+  }, 800);
+};
+
+document.addEventListener("DOMContentLoaded", function() {
+    var map = new kakao.maps.Map(document.getElementById('map'), {
+        center: new kakao.maps.LatLng(37.5665, 126.9780),
+        level: 8
+    });
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+    var currentInfowindow = null;
+
+    // 내 위치를 고정된 픽셀 크기로 빨간 원(CustomOverlay)으로 표시
+    var myLocationMarker = null;
+    function updateMyLocationOverlay(lat, lon) {
+        var locPosition = new kakao.maps.LatLng(lat, lon);
+        if (!myLocationMarker) {
+            var content = '<div style="width:18px; height:18px; background-color:red; border-radius:50%;"></div>';
+            myLocationMarker = new kakao.maps.CustomOverlay({
+                position: locPosition,
+                content: content,
+                xAnchor: 0.5,
+                yAnchor: 0.5
+            });
+            myLocationMarker.setMap(map);
+        } else {
+            myLocationMarker.setPosition(locPosition);
+        }
+    }
+
+    // 마커 DB 로드 및 마커 생성
+    fetch("markers_db_1744765842.json")
+        .then(response => response.json())
+        .then(markers => {
+            markers.forEach(function(markerData) {
+                var markerPosition = new kakao.maps.LatLng(markerData.lat, markerData.lon);
+                var marker = new kakao.maps.Marker({
+                    position: markerPosition,
+                    map: map
+                });
+                var rowsHtml = markerData.rows.map(function(row) {
+                    var rowLines = [];
+                    for (var col in row) {
+                        rowLines.push("<b>" + col + "</b>: " + row[col]);
+                    }
+                    return rowLines.join("<br>");
+                }).join("<hr style='margin:8px 0;'>");
+                var content = `
+                    <div style="width:300px;max-height:200px;overflow-y:auto;padding:10px;margin-bottom:20px;">
+                        <h4 style="margin:0 0 10px;">${markerData.address}</h4>
+                        ${rowsHtml}
+                        <hr style='margin:8px 0;'>
+                        <a href="javascript:void(0)"
+                           onclick="window.openTmapRoute(window.myLat, window.myLon, ${markerData.lat}, ${markerData.lon}, '${markerData.address}')"
+                           style="color:blue;text-decoration:underline;">
+                           T-map 길찾기
+                        </a>
+                    </div>
+                `;
+                var infowindow = new kakao.maps.InfoWindow({ content: content });
+                kakao.maps.event.addListener(marker, 'click', function() {
+                    if (currentInfowindow) {
+                        currentInfowindow.close();
+                    }
+                    infowindow.open(map, marker);
+                    currentInfowindow = infowindow;
+                });
+                
+                 kakao.maps.event.addListener(map, 'click', function() {
+                    infowindow.close();
+                });
+                
+            });
+        })
+        .catch(error => console.error("마커 DB 로드 에러:", error));
+
+    // 내 위치 추적: watchPosition을 사용해 지속적으로 갱신
+    navigator.geolocation.watchPosition(function(pos) {
+        window.myLat = pos.coords.latitude;
+        window.myLon = pos.coords.longitude;
+        updateMyLocationOverlay(window.myLat, window.myLon);
+    }, function(err) {
+        console.log("Geolocation error:", err);
+    }, {
+        enableHighAccuracy: true
+    });
+
+    // "내 위치 찾기" 버튼: 내 위치로 지도 중심 이동
+    document.getElementById('myLocationBtn').addEventListener('click', function() {
+        if (window.myLat && window.myLon) {
+            var locPosition = new kakao.maps.LatLng(window.myLat, window.myLon);
+            map.setCenter(locPosition);
+        } else {
+            alert("내 위치를 가져오지 못했습니다. 잠시 후 다시 시도하세요.");
+        }
+    });
+});
+</script>
+</body>
+</html>
