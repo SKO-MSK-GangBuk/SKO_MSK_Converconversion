@@ -49,29 +49,34 @@
     <h1>출근길 CCTV</h1>
     <div class="cctv-container">
         <div class="cctv-frame">
-            <div class="cctv-title">CCTV 1 : 홍은램프</div>
+            <div class="cctv-title">CCTV 1 : 홍은 램프</div>
             <video id="video1" controls autoplay playsinline muted loop></video>
         </div>
         <div class="cctv-frame">
-            <div class="cctv-title">CCTV 2 : 평창동일성빌라 앞</div>
-            <video id="video2" controls autoplay playsinline muted loop></video>
+            <div class="cctv-title">CCTV 2 : 국민대입구 램프</div>
+            <video id="video1" controls autoplay playsinline muted loop></video>
         </div>
         <div class="cctv-frame">
-            <div class="cctv-title">CCTV 3 : 홍은사거리</div>
-            <video id="video3" controls autoplay playsinline muted loop></video>
+            <div class="cctv-title">CCTV 3 : 평창동일성빌라 앞</div>
+            <video id="video2" controls autoplay playsinline muted loop></video>
         </div>
         <div class="cctv-frame">
             <div class="cctv-title">CCTV 4 : 홍지문-정릉 터널</div>
             <video id="video4" controls autoplay playsinline muted loop></video>
+        </div>
+        <div class="cctv-frame">
+            <div class="cctv-title">CCTV 5 : 홍은사거리</div>
+            <video id="video3" controls autoplay playsinline muted loop></video>
         </div>
     </div>
 
     <script>
         const videoSources = [
             'https://strm3.spatic.go.kr/live/413.stream/chunklist_w1650304518.m3u8',
+            'https://strm3.spatic.go.kr/live/408.stream/chunklist_w1724274655.m3u8',
             'https://strm3.spatic.go.kr/live/410.stream/chunklist_w862910520.m3u8',
             'https://strm1.spatic.go.kr/live/13.stream/chunklist_w1116577734.m3u8',
-            'https://strm3.spatic.go.kr/live/435.stream/chunklist_w1764488110.m3u8',
+            'https://strm3.spatic.go.kr/live/435.stream/chunklist_w1764488110.m3u8'
         ];
 
         function loadHLS(videoElement, url) {
@@ -101,6 +106,7 @@
     </script>
 </body>
 </html>
+
 
 
 
